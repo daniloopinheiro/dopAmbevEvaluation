@@ -137,6 +137,14 @@ src/
 
 ---
 
+## 🧱 Sugestão Geral de Arquitetura
+
+- [Sugestão Arquitetural](template/.doc/sugestao-arquitetural.md)
+
+- [Sugestão Aspire .NET](template/.doc/aspire-net.md)
+
+---
+
 ## Configuração
 
 ### Banco de Dados
@@ -238,6 +246,3 @@ Este projeto está licenciado sob a **MIT License**. Consulte o arquivo [LICENSE
   Feito com ❤️ por <strong>Danilo O. Pinheiro</strong>
 </p>
 
----
-
-Se quiser, posso gerar o `README.md` final em um arquivo para você baixar ou colar diretamente no repositório. Deseja isso?
