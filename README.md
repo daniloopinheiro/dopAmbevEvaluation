@@ -1,42 +1,54 @@
-# Descrição
+# dopAmbevEvaluation
 
-Este é um projeto de software que tem como objetivo [inserir objetivo principal do projeto, ex: resolver um problema específico, automatizar um processo, fornecer uma funcionalidade]. Ele foi desenvolvido utilizando [listar tecnologias e ferramentas principais, ex: .NET, RabbitMQ, MongoDB, etc.] e segue uma arquitetura [ex: MVC, DDD, microserviços, etc.] para garantir [escabilidade, desempenho, manutenibilidade, etc.].
+## Descrição
+
+O **dopAmbevEvaluation** é um projeto de software desenvolvido para gerenciar registros de vendas. Ele permite cadastrar, consultar, atualizar e remover vendas, incluindo itens, produtos e informações detalhadas de cada transação.
+
+O projeto foi desenvolvido utilizando **.NET 8**, seguindo **Domain-Driven Design (DDD)**, garantindo **manutenibilidade, escalabilidade e clareza de responsabilidades** entre camadas.
 
 ---
 
 ## Índice
 
-- [Visão Geral](#visão-geral)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Estrutura de Diretórios](#estrutura-de-diretórios)
-- [Configuração](#configuração)
-- [Contribuições](#contribuições)
-- [Licença](#licença)
-- [Contato](#contato)
+* [Visão Geral](#visão-geral)
+* [Tecnologias Utilizadas](#tecnologias-utilizadas)
+* [Instalação](#instalação)
+* [Como Usar](#como-usar)
+* [Estrutura de Diretórios](#estrutura-de-diretórios)
+* [Configuração](#configuração)
+* [Serviços Docker](#serviços-docker)
+* [Contribuições](#contribuições)
+* [Licença](#licença)
+* [Contato](#contato)
 
 ---
 
 ## Visão Geral
 
-Este projeto visa [explicar em poucas palavras o propósito do software e o valor que ele agrega]. Ele oferece as seguintes funcionalidades principais:
+O projeto visa oferecer uma API robusta para gerenciamento de **vendas e itens de venda**, permitindo às empresas controlar suas transações com informações completas:
 
-- **Funcionalidade 1**: [Descrição breve da funcionalidade]
-- **Funcionalidade 2**: [Descrição breve da funcionalidade]
-- **Funcionalidade 3**: [Descrição breve da funcionalidade]
+* Número da venda
+* Data da venda
+* Cliente
+* Filial
+* Produtos e quantidades
+* Preços unitários e descontos
+* Valor total de cada item e da venda
+* Status da venda: Cancelada / Não Cancelada
 
-A arquitetura do projeto segue [exemplo: Domain-Driven Design (DDD)], o que garante [benefícios como flexibilidade, escalabilidade, etc.].
+O projeto segue **DDD** e utiliza o padrão de **Identidades Externas** para referência a entidades de outros domínios, com desnormalização das descrições para manter consistência e performance.
 
 ---
 
 ## Tecnologias Utilizadas
 
-Este projeto foi desenvolvido com as seguintes tecnologias:
-
-- **Tecnologia 1**: [Descrição da tecnologia 1, ex: .NET 8, Java, etc.]
-- **Tecnologia 2**: [Descrição da tecnologia 2, ex: RabbitMQ, MySQL, etc.]
-- **Tecnologia 3**: [Descrição da tecnologia 3, ex: Docker, Kubernetes, etc.]
+* **.NET 8**: Framework principal para desenvolvimento backend
+* **Entity Framework Core**: ORM para acesso e manipulação do banco de dados
+* **PostgreSQL**: Banco de dados relacional (via container)
+* **MongoDB**: Banco de dados NoSQL (via container)
+* **Redis**: Servidor de cache leve e de alta performance (via container)
+* **Docker**: Containerização da aplicação e serviços auxiliares
+* **Swagger / OpenAPI**: Documentação interativa da API
 
 ---
 
@@ -44,135 +56,188 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 
 ### Pré-requisitos
 
-Certifique-se de que você tem as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
+* [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+* Docker (para uso dos containers)
+* Tecnologias usadas nos containers:
 
-- **Ferramenta 1**: [Link para o download ou instrução de instalação]
-- **Ferramenta 2**: [Link para o download ou instrução de instalação]
+  * **PostgreSQL 13** (Banco de dados relacional)
+  * **MongoDB 8.0** (Banco NoSQL)
+  * **Redis 7.4.1-alpine** (Cache)
 
 ### Passos para Instalar
 
 1. Clone o repositório:
 
-   ```bash
-   git clone https://github.com/seu-usuario/nome-do-projeto.git
-   cd nome-do-projeto
-   ```
+```bash
+git clone https://github.com/seu-usuario/Ambev.DeveloperEvaluation.git
+cd Ambev.DeveloperEvaluation
+```
 
-2. Instale as dependências do projeto:
+2. Restaure as dependências do projeto:
 
-   Se estiver utilizando o Visual Studio ou VS Code, abra a solução e restaure os pacotes.
+```bash
+dotnet restore
+```
 
-   Ou, se estiver utilizando a linha de comando, execute:
+3. Configure o banco de dados e variáveis de ambiente conforme [Configuração](#configuração).
 
-   ```bash
-   dotnet restore
-   ```
+4. Execute o projeto:
 
-3. [Instrução de configuração, ex: configurar o banco de dados, variáveis de ambiente, etc.]
+```bash
+dotnet run --project Ambev.DeveloperEvaluation.WebApi
+```
 
-4. Para rodar o projeto localmente, use o seguinte comando:
+Ou via Docker:
 
-   ```bash
-   dotnet run
-   ```
-
-   Ou, se estiver usando containers Docker, execute:
-
-   ```bash
-   docker-compose up
-   ```
+```bash
+docker-compose up
+```
 
 ---
 
 ## Como Usar
 
-Este projeto pode ser utilizado para [explicar de forma prática como o usuário pode interagir com o sistema]. Exemplos de uso:
+A API oferece endpoints para gerenciar **vendas** e **itens de venda**.
 
-1. **Endpoint 1**:
-   - **Método HTTP**: GET/POST
-   - **URL**: `/api/exemplo`
-   - **Descrição**: [Breve descrição do que esse endpoint faz]
-   
-2. **Endpoint 2**:
-   - **Método HTTP**: GET/POST
-   - **URL**: `/api/exemplo/{id}`
-   - **Descrição**: [Breve descrição do que esse endpoint faz]
+### Endpoints Principais
 
-### Exemplos de uso com cURL ou Postman
+#### Sales
 
-**Requisição de exemplo**:
+* `GET /api/sales` → Listar vendas
+* `GET /api/sales/{id}` → Obter venda por ID
+* `POST /api/sales` → Criar nova venda
+* `PUT /api/sales/{id}` → Atualizar venda
+* `DELETE /api/sales/{id}` → Remover venda
+
+#### SalesItem
+
+* `POST /api/sales/{saleId}/items` → Adicionar item à venda
+* `PUT /api/sales/{saleId}/items/{itemId}` → Atualizar item
+* `DELETE /api/sales/{saleId}/items/{itemId}` → Remover item
+
+### Exemplo com cURL
 
 ```bash
-curl -X GET http://localhost:5000/api/exemplo -H "Content-Type: application/json"
+curl -X GET http://localhost:8080/api/sales -H "Content-Type: application/json"
 ```
 
 ---
 
 ## Estrutura de Diretórios
 
-A estrutura do projeto segue uma organização modular e de fácil manutenção:
-
-```
+```plaintext
 src/
-├── API/                # Camada de apresentação (controladores e endpoints da API)
-├── Application/        # Camada de lógica de negócios
-├── Domain/             # Camada de domínio (entidades e interfaces)
-├── Infrastructure/     # Camada de infraestrutura (conexões com banco, serviços, etc.)
+├── Ambev.DeveloperEvaluation.Application/
+├── Ambev.DeveloperEvaluation.Common/
+├── Ambev.DeveloperEvaluation.Domain/
+├── Ambev.DeveloperEvaluation.IoC/
+├── Ambev.DeveloperEvaluation.ORM/
+└── Ambev.DeveloperEvaluation.WebApi/
 ```
 
 ---
 
 ## Configuração
 
-Este projeto exige algumas configurações adicionais, como variáveis de ambiente, arquivos de configuração ou serviços externos. As instruções de configuração podem ser encontradas abaixo:
+### Banco de Dados
 
-### Configuração do Banco de Dados
-
-1. No arquivo `appsettings.json`, adicione suas configurações de banco de dados, por exemplo:
+No `appsettings.json`:
 
 ```json
 {
   "DatabaseSettings": {
-    "ConnectionString": "mongodb://localhost:27017",
-    "DatabaseName": "MeuBancoDeDados"
+    "ConnectionString": "Server=localhost;Database=dopAmbevDb;User Id=sa;Password=SuaSenha;",
+    "DatabaseName": "dopAmbevDb"
   }
 }
 ```
 
-2. Para configuração de variáveis de ambiente, adicione as seguintes variáveis ao seu ambiente de execução:
+Variáveis de ambiente opcionais:
 
 ```bash
-DATABASE_URL=mongodb://localhost:27017
-SECRET_KEY=alguma_chave_secreta
+DATABASE_URL="Server=localhost;Database=dopAmbevDb;User Id=sa;Password=SuaSenha;"
+SECRET_KEY="chave_secreta"
 ```
 
-### Configuração de API Externa (se necessário)
+---
 
-Caso o projeto dependa de APIs externas, configure as credenciais ou chaves de acesso no arquivo de configuração.
+## Serviços Docker
+
+O projeto inclui um ambiente completo usando **Docker** com os seguintes serviços:
+
+### 1. 🟦 `ambev.developerevaluation.webapi`
+
+* **Tecnologia**: ASP.NET Core (.NET 8)
+* **Função**: API principal da aplicação
+* **Portas**: `8080` (HTTP), `8081` (HTTPS)
+* **Volume**: Secrets do usuário e certificado HTTPS
+
+### 2. 🟨 `ambev.developerevaluation.database`
+
+* **Tecnologia**: PostgreSQL 13
+* **Função**: Banco de dados relacional da aplicação
+* **Porta**: `5432`
+* **Credenciais**:
+
+  * Usuário: `developer`
+  * Senha: `ev@luAt10n`
+
+### 3. 🟩 `ambev.developerevaluation.nosql`
+
+* **Tecnologia**: MongoDB 8.0
+* **Função**: Armazenamento de dados NoSQL, logs ou auditoria
+* **Porta**: `27017`
+* **Credenciais**:
+
+  * Usuário: `developer`
+  * Senha: `ev@luAt10n`
+
+### 4. 🟥 `ambev.developerevaluation.cache`
+
+* **Tecnologia**: Redis 7.4.1 (Alpine)
+* **Função**: Cache de dados, sessões, filas
+* **Porta**: `6379`
+* **Senha**: `ev@luAt10n`
+
+> Execute todos os serviços com o comando:
+
+```bash
+docker-compose up
+```
 
 ---
 
 ## Contribuições
 
-Contribuições são bem-vindas! Para contribuir com o projeto, siga estas etapas:
+Contribuições são bem-vindas!
 
-1. Faça um **fork** do repositório.
-2. Crie uma nova branch para sua feature (ex: `git checkout -b feature/nova-feature`).
-3. Faça as alterações necessárias e commit (ex: `git commit -m 'Adiciona nova-feature'`).
-4. Envie as alterações para seu repositório (ex: `git push origin feature/nova-feature`).
-5. Crie um **pull request** para a branch principal do repositório original.
+1. Faça um **fork** do repositório
+2. Crie uma branch (`git checkout -b feature/nova-feature`)
+3. Faça commit das alterações (`git commit -m 'Adiciona nova feature'`)
+4. Envie para o repositório (`git push origin feature/nova-feature`)
+5. Crie um **pull request**
 
 ---
 
 ## Licença
 
-Este projeto está licenciado sob a Licença [Nome da Licença, ex: MIT]. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a **MIT License**. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
 ## Contato
 
-Caso tenha dúvidas ou sugestões, entre em contato:
+* ✉️ **Email Pessoal**: [daniloopro@gmail.com](mailto:daniloopro@gmail.com)
+* 🏢 **Email Empresarial (DevsFree)**: [devsfree@devsfree.com.br](mailto:devsfree@devsfree.com.br)
+* 📊 **Consultoria (dopme.io)**: [contato@dopme.io](mailto:contato@dopme.io)
+* 💼 **LinkedIn**: [Danilo O. Pinheiro](https://www.linkedin.com/in/daniloopinheiro)
 
-- **Email**: [dopme.io](mailto:daniloopinheiro@dopme.io)
-- **LinkedIn**: [Danilo O. Pinheiro](https://www.linkedin.com/in/daniloopinheiro/)
+---
+
+<p align="center">
+  Feito com ❤️ por <strong>Danilo O. Pinheiro</strong>
+</p>
+
+---
+
+Se quiser, posso gerar o `README.md` final em um arquivo para você baixar ou colar diretamente no repositório. Deseja isso?
