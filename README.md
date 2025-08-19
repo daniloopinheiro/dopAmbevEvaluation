@@ -145,7 +145,7 @@ src/
 
 ---
 
-## 📄 Erros e Soluções no Projeto `dopAmbevEvaluation`
+## 📄 Erros e Soluções
 
 - [Erros e Soluções](template/.doc/erros_solutions.md)
 
