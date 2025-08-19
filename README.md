@@ -139,9 +139,15 @@ src/
 
 ## 🧱 Sugestão Geral de Arquitetura
 
-- [Sugestão Arquitetural](template/.doc/sugestao-arquitetural.md)
+- [Sugestão Arquitetural](template/.doc/sugestao_arquitetural.md)
 
-- [Sugestão Aspire .NET](template/.doc/aspire-net.md)
+- [Sugestão Aspire .NET](template/.doc/aspire_net.md)
+
+---
+
+## 📄 Erros e Soluções no Projeto `dopAmbevEvaluation`
+
+- [Erros e Soluções](template/.doc/erros_solutions.md)
 
 ---
 
