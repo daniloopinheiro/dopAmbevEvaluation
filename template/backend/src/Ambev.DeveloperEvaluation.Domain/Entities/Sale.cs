@@ -17,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         private Sale() { }
 
-        public Sale(string saleNumber, DateTime saleDate, string customerName, string branch, IEnumerable<SaleItem> items)
+        public Sale(string saleNumber, DateTime saleDate, string customerName, string branch)
         {
             SaleNumber = saleNumber;
             SaleDate = saleDate;
